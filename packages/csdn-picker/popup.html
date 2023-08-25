@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSDN-PICKER</title>
+    <script src="tailwindcss.js"></script>
+</head>
+
+<body class="p-2" style="width: 500px;">
+    <div class="bg-white rounded shadow grid grid-cols-1 divide-y">
+        <div class="py-2 px-3"><h2 class="text-lg font-bold">CSDN 博文采集工具</h2></div>
+
+        <div class="p-3">
+            <p class="font-bold">操作说明</p>
+            <p>1、访问 CSDN 博主首页</p>
+            <p>2、点击下方 <b class="text-indigo-500">开始采集</b> 按钮即可（数据文件名称格式为：{博主ID}-{日期}.xlsx）</p>
+        </div>
+
+        <div class="p-3">
+            <button type="button" class="py-2 px-3 bg-indigo-500 hover:bg-indigo-600 text-white" id="run">开始采集</button>
+        </div>
+    </div>
+</body>
+
+<script src="popup.js"></script>
+</html>

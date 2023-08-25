@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "csdn-picker",
+    "description": "批量采集 CSDN 博主（首页）的文章另存为 Excel",
+    "version": "0.0.1",
+    "icons": {
+        "32": "csdn.png",
+        "64": "csdn.png",
+        "128": "csdn.png"
+    },
+    "action":{
+        "default_title": "配置 CSDN PICKER",
+        "default_popup": "popup.html",
+        "default_icon": "csdn-simple.png"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "notifications"
+    ]
+}

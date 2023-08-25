@@ -1,0 +1,13 @@
+{
+    "name": "chrome-exts-demo",
+    "version": "1.0.0",
+    "description": "Chrome 体系浏览器扩展示例，基于原生 HTML5、VUE3",
+    "main": "index.js",
+    "repository": "https://github.com/0604hx/chrome-exts-demo",
+    "author": "0604hx/集成显卡",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ]
+}
