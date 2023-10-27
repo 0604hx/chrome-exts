@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "bilibili-tool",
+    "description": "哔哩哔哩工具",
+    "version": "0.0.1",
+    "icons": {
+        "32": "bilibili.png",
+        "64": "bilibili.png",
+        "128": "bilibili.png"
+    },
+    "action":{
+        "default_title": "哔哩哔哩工具",
+        "default_popup": "popup.html",
+        "default_icon": "bilibili.ico"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "notifications"
+    ]
+}
