@@ -1,0 +1,13 @@
+{
+    "name": "basic",
+    "version": "0.0.1",
+    "type": "module",
+    "description": "基础模块",
+    "main": "index.js",
+    "author": "集成显卡/0604hx",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "dayjs": "^1.11.10"
+    }
+}

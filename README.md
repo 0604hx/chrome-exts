@@ -4,3 +4,5 @@
 ## 附录
 
 * [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
+* [又快又爽的开发 Chrome 扩展程序](https://www.viterc.cn/en/vite-chrome-extension.html)
+* [Chrome扩展程序是如何进行消息传递的](https://juejin.cn/post/7316202747828256819)

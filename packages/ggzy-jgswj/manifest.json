@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "公共资源信息提取",
+    "description": "全国公共资源交易平台信息提取工具（目前仅针对广西壮族自治区）",
+    "version": "0.0.1",
+    "action": {
+        "default_title": "全国公共资源交易平台信息提取工具",
+        "default_popup": "index.html"
+    },
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "content_scripts": [
+        {
+            "js": ["src/content.js"],
+            "matches": [
+                "http://ggzy.jgswj.gxzf.gov.cn/gxggzy/",
+                "http://ggzy.jgswj.gxzf.gov.cn/index.html"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "notifications",
+        "downloads"
+    ]
+}
