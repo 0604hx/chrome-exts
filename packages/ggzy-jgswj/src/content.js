@@ -26,7 +26,8 @@ import { cleanText, sendNotice, testEle } from "basic/func"
  * @property {String} gq - 工期
  * @property {String} xmjl - 项目经理
  * @property {String} jgbm - 监管部门
- * @property {String} url - 真实内容的完整地址
+ * @property {String} url - 嵌套内容的地址
+ * @property {String} urlReal - 真实内容的完整地址
  */
 
 window.fetchDo = async ps=>{
@@ -59,8 +60,10 @@ window.fetchDo = async ps=>{
     else if(uuid.length == 12)      {}
     else                            _fail(`工程类型格式有误（必须是长度为1、3、9、12的纯数字）`)
 
+    const lianheti = "成员单位："
     const rows = [["STATUS", "项目类型","地区/城市", "名称","编号","发布日期","中标人","中标价/费率","工期","项目经理","监管部门", "信息日期", "链接"]]
     const codeNames = {
+        "001001001005": "房建市政",
         "001001002005": "水利工程",
         "001001003005": "交通工程",
         "001001004005": "铁路工程",
@@ -124,12 +127,13 @@ window.fetchDo = async ps=>{
             /**@type {DataLine} */
             const d = {
                 xmlx: codeNames[code], dq: record.areaname, id: record.infoid, date: record.infodatepx, status:"Y",
-                url: "http://ggzy.jgswj.gxzf.gov.cn/gxggzy"+record.linkurl
+                urlReal: "http://ggzy.jgswj.gxzf.gov.cn/gxggzy"+record.linkurl,
+                url: `http://ggzy.jgswj.gxzf.gov.cn/gxggzy/projectDetails.html?infoid=${record.infoid}&categorynum=${uuid}`
             }
             recordCount ++
 
             //获取内容
-            let html = await fetch(d.url).then(v=>v.text())
+            let html = await fetch(d.urlReal).then(v=>v.text())
             let document = new DOMParser().parseFromString(html, "text/html")
 
             let contentDiv =  document.querySelector(".ewb-details-info")
@@ -220,7 +224,8 @@ window.fetchDo = async ps=>{
                 }
 
                 Object.keys(columns).map(key=>{
-                    let regex = RegExp(`(${columns[key]})[^：]*：`)
+                    // 关键字匹配不超过 15 字
+                    let regex = RegExp(`(${columns[key]})[^：]{0,15}：`)
                     for (let index = 0; index < lines.length; index++) {
                         const line = lines[index].replaceAll(' ', "").trim()
                         const m = line.match(regex)
@@ -231,6 +236,14 @@ window.fetchDo = async ps=>{
                         }
                     }
                 })
+
+                //对于联合体，单独处理
+                if(d.zbr == "/（非联合体）"){
+                    let chengyuan = contentDiv.textContent.split("\n").find(v=> v.includes(lianheti))
+                    if(chengyuan){
+                        d.zbr = chengyuan.trim().replace(lianheti, "")
+                    }
+                }
             }
             else {
                 d.status = "N"

@@ -50,6 +50,7 @@
 
     const name = _NAME_
     const types = [
+        { label:"房建市政", value:"001" },
         { label:"水利工程", value:"002" },
         { label:"交通工程", value:"003" },
         { label:"铁路工程", value:"004" },
