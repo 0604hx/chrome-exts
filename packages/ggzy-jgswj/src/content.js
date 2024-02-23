@@ -24,6 +24,7 @@ import { cleanText, sendNotice, testEle } from "basic/func"
  * @property {String} zbr - 中标人
  * @property {String} zbj - 中标价
  * @property {String} gq - 工期
+ * @property {String} zbfw - 中标范围
  * @property {String} xmjl - 项目经理
  * @property {String} jgbm - 监管部门
  * @property {String} url - 嵌套内容的地址
@@ -61,7 +62,7 @@ window.fetchDo = async ps=>{
     else                            _fail(`工程类型格式有误（必须是长度为1、3、9、12的纯数字）`)
 
     const lianheti = "成员单位："
-    const rows = [["STATUS", "项目类型","地区/城市", "名称","编号","发布日期","中标人","中标价/费率","工期","项目经理","监管部门", "信息日期", "链接"]]
+    const rows = [["STATUS", "项目类型","地区/城市", "名称","编号","发布日期","中标人","中标价/费率","工期", "中标范围","项目经理","监管部门", "信息日期", "链接"]]
     const codeNames = {
         "001001001005": "房建市政",
         "001001002005": "水利工程",
@@ -105,6 +106,8 @@ window.fetchDo = async ps=>{
          */
         const _split = text=> text.trim().split("\n").map(v=>v.trim())
 
+        const isFJSZ    = uuid == '001001001005'        //是否为房建市政
+
         let recordCount = 0
         for(let i=0;i<records.length;i++){
             /**@type {Item} */
@@ -127,6 +130,7 @@ window.fetchDo = async ps=>{
             /**@type {DataLine} */
             const d = {
                 xmlx: codeNames[code], dq: record.areaname, id: record.infoid, date: record.infodatepx, status:"Y",
+                zbfw:"",
                 urlReal: "http://ggzy.jgswj.gxzf.gov.cn/gxggzy"+record.linkurl,
                 url: `http://ggzy.jgswj.gxzf.gov.cn/gxggzy/projectDetails.html?infoid=${record.infoid}&categorynum=${uuid}`
             }
@@ -244,6 +248,13 @@ window.fetchDo = async ps=>{
                         d.zbr = chengyuan.trim().replace(lianheti, "")
                     }
                 }
+                //针对房建市政的特殊处理
+                if(isFJSZ){
+                    let zbfw = lines.find(l=> l.includes("中标范围"))
+                    if(zbfw){
+                        d.zbfw = zbfw.split("中标范围：").pop().trim().substring(0, 100)
+                    }
+                }
             }
             else {
                 d.status = "N"
@@ -265,10 +276,10 @@ window.fetchDo = async ps=>{
 
             if(extraLines.length>0){
                 //多段中标人
-                extraLines.forEach(ex=> rows.push([d.status, d.xmlx, d.dq, d.xmmc, d.xmbh, d.fbrq, ex[0], ex[1], d.gq, d.xmjl, d.jgbm, d.date, d.url]) )
+                extraLines.forEach(ex=> rows.push([d.status, d.xmlx, d.dq, d.xmmc, d.xmbh, d.fbrq, ex[0], ex[1], d.gq, d.zbfw, d.xmjl, d.jgbm, d.date, d.url]) )
             }
             else
-                rows.push([d.status, d.xmlx, d.dq, d.xmmc, d.xmbh, d.fbrq, d.zbr, d.zbj, d.gq, d.xmjl, d.jgbm, d.date, d.url])
+                rows.push([d.status, d.xmlx, d.dq, d.xmmc, d.xmbh, d.fbrq, d.zbr, d.zbj, d.gq,d.zbfw, d.xmjl, d.jgbm, d.date, d.url])
         }
 
         window.rows = rows
